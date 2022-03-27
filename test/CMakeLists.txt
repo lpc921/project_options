@@ -26,6 +26,8 @@ set(PCH_HEADERS
     <string>
     <string_view>)
 
+set(PATH_TO_CONAN_PROFILE "" CACHE STRING "Path to a Conan profile. When omitted, settings are determined automatically.")
+
 # Initialize project_options
 # uncomment the options to enable them
 project_options(
@@ -51,6 +53,7 @@ project_options(
   # ENABLE_SANITIZER_THREAD
   # ENABLE_SANITIZER_MEMORY
   # CLANG_WARNINGS "-Weverything"
+  CONAN_PROFILE ${PATH_TO_CONAN_PROFILE}
 )
 # NOTE: project_options and project_warnings are defined inside project_options
 

@@ -2,9 +2,9 @@ name: ci
 on:
   pull_request:
   push:
-    branches:
-      - main
-      - master
+    # branches:
+    #   - main
+    #   - master
 
 jobs:
   Test:
@@ -63,6 +63,11 @@ jobs:
           clangtidy: true
           task: true
           doxygen: true
+
+      - name: Test emscripten
+        if: matrix.os == 'ubuntu-20.04' && matrix.compiler == 'llvm'
+        run: |
+          task test_emscripten
 
       - name: Test
         run: |

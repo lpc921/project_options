@@ -12,6 +12,11 @@ tasks:
     - cmake --build ./test/build --config Release
     - cd ./test/build && ctest -C Release --verbose
 
+  test_emscripten:
+    - cmake ./test -B ./test/build -DCMAKE_BUILD_TYPE:STRING=Release -DPATH_TO_CONAN_PROFILE:STRING=./emsdk.profile -G '{{.CMAKE_GENERATOR | default "Ninja Multi-Config"}}'
+    - cmake --build ./test/build --config Release
+    - cd ./test/build && ctest -C Release --verbose
+
   test_install:
     cmds:
       - task: test_release
