@@ -55,7 +55,7 @@ macro(run_conan)
     if("${ProjectOptions_CONAN_PROFILE}" STREQUAL "")
       # Detects current build settings to pass into conan
       conan_cmake_autodetect(settings BUILD_TYPE ${TYPE})
-      set(CONAN_SETTINGS "SETTINGS ${settings}")
+      set(CONAN_SETTINGS "ENV CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} SETTINGS ${settings}")
     else()
       # Derive all conan settings from a conan profile
       set(CONAN_SETTINGS "PROFILE=${ProjectOptions_CONAN_PROFILE}")
@@ -72,10 +72,6 @@ macro(run_conan)
       # Pass compile-time configured options into conan
       OPTIONS
       ${ProjectOptions_CONAN_OPTIONS}
-      # Pass CMake compilers to Conan
-      ENV
-      "CC=${CMAKE_C_COMPILER}"
-      "CXX=${CMAKE_CXX_COMPILER}"
       ${CONAN_SETTINGS}
       ${OUTPUT_QUIET})
   endforeach()
