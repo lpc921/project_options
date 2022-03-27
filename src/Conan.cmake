@@ -52,13 +52,17 @@ macro(run_conan)
   foreach(TYPE ${LIST_OF_BUILD_TYPES})
     message(STATUS "Running Conan for build type '${TYPE}'")
 
-    if("${ProjectOptions_CONAN_PROFILE}" STREQUAL "")
+    if(${ProjectOptions_CONAN_PROFILE})
       # Detects current build settings to pass into conan
       conan_cmake_autodetect(settings BUILD_TYPE ${TYPE})
-      set(CONAN_SETTINGS "ENV CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} SETTINGS ${settings}")
+      set(CONAN_SETTINGS SETTINGS ${settings})
+      set(CONAN_ENV ENV CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER})
     else()
       # Derive all conan settings from a conan profile
-      set(CONAN_SETTINGS "PROFILE=${ProjectOptions_CONAN_PROFILE}")
+      set(CONAN_SETTINGS PROFILE ${ProjectOptions_CONAN_PROFILE})
+    endif()
+    if(${ProjectOptions_CONAN_OPTIONS})
+      set(CONAN_OPTIONS OPTIONS ${ProjectOptions_CONAN_OPTIONS})
     endif()
 
     # PATH_OR_REFERENCE ${CMAKE_SOURCE_DIR} is used to tell conan to process
@@ -69,9 +73,8 @@ macro(run_conan)
       ${CMAKE_SOURCE_DIR}
       BUILD
       missing
-      # Pass compile-time configured options into conan
-      OPTIONS
-      ${ProjectOptions_CONAN_OPTIONS}
+      ${CONAN_OPTIONS}
+      ${CONAN_ENV}
       ${CONAN_SETTINGS}
       ${OUTPUT_QUIET})
   endforeach()
