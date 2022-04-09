@@ -75,7 +75,6 @@ macro(run_conan)
       OPTIONS
       ${ProjectOptions_CONAN_OPTIONS}
       # Pass CMake compilers to Conan
-      ${CONAN_ENV}
       ${CONAN_SETTINGS}
       ${OUTPUT_QUIET})
   endforeach()
